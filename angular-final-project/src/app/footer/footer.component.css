@@ -1,0 +1,22 @@
+.footer {
+  background-color: #0790E8;
+  color: white;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  padding: 10px 0;
+  text-align: center;
+}
+
+.list-inline {
+  list-style: none;
+  padding-left: 0;
+  margin: 0 auto;
+  width: fit-content;
+}
+
+.list-inline-item {
+  display: inline-block;
+  margin-right: 50px;
+}
