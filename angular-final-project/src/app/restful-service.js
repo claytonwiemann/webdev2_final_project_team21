@@ -1,4 +1,5 @@
 const axios = require('axios');
+const fetch = require('node-fetch');
 
 const baseURL = 'http://localhost:3000';
 
@@ -13,22 +14,20 @@ async function fetchExchangeRates(baseCurrency) {
   }
 }
 
-//Function to fetch weather data from the backend API
-async function fetchWeather(city) {
+
+async function fetchWeatherByCoordinates(latitude, longitude) {
   try {
-    const response = await axios.get(`${baseURL}/weather`, {
-      params: {
-        city: city
-      }
-    });
-    return response.data;
+    const response = await fetch(`http://localhost:3000/weather?lat=${latitude}&lon=${longitude}`);
+    const data = await response.json();
+    return data;
   } catch (error) {
     console.error('Error fetching weather data:', error);
-    return null;
+    throw error;
   }
 }
 
+
 module.exports = {
   fetchExchangeRates,
-  fetchWeather
+  fetchWeatherByCoordinates
 };
