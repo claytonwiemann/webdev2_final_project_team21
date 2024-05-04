@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { CurrencyService } from './currency.service'; // Import the CurrencyService
+import { CurrencyService } from './currency.service';
 
 @Component({
   selector: 'app-currency',
@@ -7,12 +7,13 @@ import { CurrencyService } from './currency.service'; // Import the CurrencyServ
   styleUrls: ['./currency.component.css']
 })
 export class CurrencyComponent implements OnInit {
-  exchangeRates: any; // Define a property to hold the exchange rates
+  exchangeRates: any;
 
-  constructor(private currencyService: CurrencyService) { } // Inject the CurrencyService
+  constructor(private currencyService: CurrencyService) { }
 
   ngOnInit(): void {
-    // Call the fetchExchangeRates method from the CurrencyService
+    //Call the fetchExchangeRates method from the CurrencyService
+    //USD example below
     this.currencyService.fetchExchangeRates('USD').subscribe(
       (data: any) => {
         this.exchangeRates = data;

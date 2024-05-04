@@ -8,6 +8,7 @@ import { Observable } from 'rxjs';
 export class CurrencyService {
   constructor(private http: HttpClient) {}
 
+  //calling backend
   fetchExchangeRates(baseCurrency: string): Observable<any> {
     return this.http.get<any>(`http://localhost:3000/exchange-rates/${baseCurrency}`);
   }
