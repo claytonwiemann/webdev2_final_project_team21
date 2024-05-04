@@ -1,7 +1,9 @@
 const express = require('express');
+const cors = require('cors');
 const axios = require('axios');
 const fetch = require('node-fetch');
 const app = express();
+app.use(cors());
 const { MongoClient, ServerApiVersion } = require('mongodb');
 
 const currencyApiKey = '6f6de1d6e251d9e16afa3d70';
