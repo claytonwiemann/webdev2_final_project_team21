@@ -15,16 +15,10 @@ const client = new MongoClient(uri);
 
 async function recordServerDetails() {
   try {
-    // Connect to the MongoDB Atlas cluster
     await client.connect();
-
-    // Access the final_project database
     const database = client.db('final_project');
-
-    // Access the server_details collection
     const collection = database.collection('server_details');
 
-    // Update the server_details collection with current timestamp and increment total count
     const today = new Date().toISOString().split('T')[0];
 
     await collection.updateOne(
@@ -38,7 +32,6 @@ async function recordServerDetails() {
   } catch (error) {
     console.error('Error updating server details:', error);
   } finally {
-    // Close the MongoClient
     await client.close();
   }
 }
