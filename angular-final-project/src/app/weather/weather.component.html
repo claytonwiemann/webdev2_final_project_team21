@@ -1,3 +1,14 @@
+<div>
+  <form (submit)="getWeatherData(postForm)" #postForm = "ngForm">
+    <label for="latidude">Latitude:</label>
+    <input ngModel type="number" id="latitude" name="latitude">
+    <label for="longitude">Longitude:</label>
+    <input ngModel type="number" id="longitude" name="longitude">
+    <button type="submit">
+      Get Weather Data
+    </button>
+</form>
+
 <div *ngIf="weatherData">
   <h2>Current Weather</h2>
   <p>City: {{ weatherData.name }}</p>
