@@ -10,25 +10,73 @@ const currencyApiKey = '6f6de1d6e251d9e16afa3d70';
 const weatherApiKey = 'ca4d16d1e367aa0f225c9499b35d369b'
 
 
-const uri = "mongodb+srv://claywiemann:tpqxzX3yYtoxoOtr@cluster0.o33bknb.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
-const client = new MongoClient(uri, {
-  serverApi: {
-    version: ServerApiVersion.v1,
-    strict: true,
-    deprecationErrors: true,
-  }
-});
+const uri = "mongodb+srv://claywiemann:admin@cluster0.o33bknb.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
+const client = new MongoClient(uri);
 
-async function run() {
+async function recordServerDetails() {
+  try {
+    // Connect to the MongoDB Atlas cluster
+    await client.connect();
+
+    // Access the final_project database
+    const database = client.db('final_project');
+
+    // Access the server_details collection
+    const collection = database.collection('server_details');
+
+    // Update the server_details collection with current timestamp and increment total count
+    const today = new Date().toISOString().split('T')[0];
+
+    await collection.updateOne(
+      { date: today },
+      {
+        $setOnInsert: { date: today },
+        $inc: { totalRequests: 1 }
+      },
+      { upsert: true }
+    );
+  } catch (error) {
+    console.error('Error updating server details:', error);
+  } finally {
+    // Close the MongoClient
+    await client.close();
+  }
+}
+
+async function getTotalRequestsCount() {
   try {
     await client.connect();
-    await client.db("admin").command({ ping: 1 });
-    console.log("Atlas mongoDB connected!");
+    const database = client.db('final_project');
+    const collection = database.collection('server_details');
+    const today = new Date().toISOString().split('T')[0];
+    const result = await collection.findOne({ date: today });
+    if (result) {
+      return result.totalRequests || 0;
+    } else {
+      return 0;
+    }
+  } catch (error) {
+    console.error('Error fetching total requests count:', error);
+    return 0;
   } finally {
     await client.close();
   }
 }
-run().catch(console.dir);
+
+// Route to retrieve total requests count
+app.get('/total-requests', async (req, res) => {
+  const totalRequestsCount = await getTotalRequestsCount();
+  console.log()
+  res.json({ totalRequests: totalRequestsCount });
+});
+
+
+
+//Middleware to record server details before handling each request
+app.use(async (req, res, next) => {
+  await recordServerDetails(req);
+  next();
+});
 
 
 async function fetchExchangeRates(baseCurrency) {
@@ -86,29 +134,10 @@ app.get('/weather', async (req, res) => {
 });
 
 
-/*
-app.get('/weather', async (req, res) => {
-  try {
-    //city param for the api
-    const city = req.query.city;
-    if (!city) {
-      return res.status(400).json({ error: 'City parameter is required' });
-    }
 
-    //OpenWeather api
-    const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${weatherApiKey}`;
 
-    const response = await fetch(url);
-    const data = await response.json();
 
-    //returned json data from the call
-    res.json(data);
-  } catch (error) {
-    console.error('Error fetching weather data:', error);
-    res.status(500).json({ error: 'An error occurred while fetching weather data' });
-  }
-});
-*/
+
 
 app.get('/', (req, res) => {
   res.send('Showing app.get() works');

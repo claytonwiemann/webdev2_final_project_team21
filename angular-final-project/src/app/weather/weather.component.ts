@@ -13,7 +13,7 @@ export class WeatherComponent implements OnInit {
   constructor(private weatherService: WeatherService) { }
 
   ngOnInit(): void {
-    // For example, let's use coordinates for New York City
+    //new york example
     const latitude = 40.7128;
     const longitude = -74.0060;
     this.fetchWeatherData(latitude, longitude);
