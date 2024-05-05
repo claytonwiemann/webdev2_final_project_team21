@@ -62,6 +62,33 @@ app.get('/exchange-rates/:baseCurrency', async (req, res) => {
 
 app.get('/weather', async (req, res) => {
   try {
+    const latitude = req.query.lat;
+    const longitude = req.query.lon;
+
+    if (!latitude || !longitude) {
+      return res.status(400).json({ error: 'Latitude and Longitude required' });
+    }
+
+    //OpenWeather api
+
+
+    const url = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${weatherApiKey}`;
+
+    const response = await fetch(url);
+    const data = await response.json();
+
+    //returned json data from the call
+    res.json(data);
+  } catch (error) {
+    console.error('Error fetching weather data:', error);
+    res.status(500).json({ error: 'An error occurred while fetching weather data' });
+  }
+});
+
+
+/*
+app.get('/weather', async (req, res) => {
+  try {
     //city param for the api
     const city = req.query.city;
     if (!city) {
@@ -81,7 +108,7 @@ app.get('/weather', async (req, res) => {
     res.status(500).json({ error: 'An error occurred while fetching weather data' });
   }
 });
-
+*/
 
 app.get('/', (req, res) => {
   res.send('Showing app.get() works');
