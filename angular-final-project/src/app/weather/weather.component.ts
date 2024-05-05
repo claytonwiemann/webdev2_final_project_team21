@@ -28,6 +28,6 @@ export class WeatherComponent implements OnInit {
   }
 
   kelvinToFahrenheit(kelvin: number): number {
-    return (kelvin - 273.15) * 9/5 + 32;
+    return Math.trunc((kelvin - 273.15) * 9/5 + 32);
   }
 }
