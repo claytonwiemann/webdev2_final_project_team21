@@ -1,18 +1,22 @@
-<div>
-  <form (submit)="getWeatherData(postForm)" #postForm = "ngForm">
-    <label for="latidude">Latitude:</label>
-    <input ngModel type="number" id="latitude" name="latitude">
-    <label for="longitude">Longitude:</label>
-    <input ngModel type="number" id="longitude" name="longitude">
-    <button type="submit">
-      Get Weather Data
-    </button>
-</form>
+<div class="container">
+  <main>
+    <h2>Current Weather</h2>
+    <div class="weather-form">
+      <form (submit)="getWeatherData(postForm)" #postForm="ngForm">
+        <label for="latitude"><p>Latitude:</p></label>
+        <input ngModel type="number" id="latitude" name="latitude">
+        <label for="longitude"><p>Longitude:</p></label>
+        <input ngModel type="number" id="longitude" name="longitude">
+        <button type="submit">Get Weather Data</button>
+      </form>
+    </div>
 
-<div *ngIf="weatherData">
-  <h2>Current Weather</h2>
-  <p>City: {{ weatherData.name }}</p>
-  <p>Temperature: {{ temperatureFahrenheit }}°F</p>
-  <p>Humidity: {{ weatherData.main.humidity }}%</p>
-  <p>Weather: {{ weatherData.weather[0].description }}</p>
+    <div *ngIf="weatherData" class="weather-info">
+      <p>City: {{ weatherData.name }}</p>
+      <p>Temperature: {{ temperatureFahrenheit }}°F</p>
+      <p>Humidity: {{ weatherData.main.humidity }}%</p>
+      <p>Weather: {{ weatherData.weather[0].description }}</p>
+    </div>
+  </main>
 </div>
+

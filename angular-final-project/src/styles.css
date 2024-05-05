@@ -4,3 +4,23 @@ app-root {
 body {
   margin: 0;
 }
+
+h1 {
+  color: #0790E8;
+}
+
+h2 {
+  color: #0790E8;
+  font-family: Arial, sans-serif; 
+  line-height: 1.5; 
+  letter-spacing: 0.5px; 
+}
+
+p {
+  color: #555555; 
+  font-family: Arial, sans-serif; 
+  font-size: 16px; 
+  line-height: 1.5; 
+  letter-spacing: 0.5px; 
+}
+

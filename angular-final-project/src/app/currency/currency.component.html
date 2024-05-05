@@ -1,21 +1,43 @@
-<div *ngIf="exchangeRates">
-  <form (submit)="getExchangeRates(postForm)" #postForm = "ngForm">
-    <select ngModel name="country">
-      <option disable selected value="">Select Base Currency</option>
-      <option *ngFor="let rate of exchangeRates | keyvalue" value={{rate.key}}>{{rate.key}}</option>
-    </select>
-    <button type="submit">
-      Get Exchange Rates
-    </button>
-</form>
+<div class="container">
+  <main>
+    <h2>Currency Converter</h2>
+
+    <div *ngIf="exchangeRates">
+      <form (submit)="getExchangeRates(postForm)" #postForm = "ngForm">
+        <select ngModel name="country">
+          <option disable selected value="">Select Base Currency</option>
+          <option *ngFor="let rate of exchangeRates | keyvalue" value={{rate.key}}>{{rate.key}}</option>
+        </select>
+        <button type="submit">
+          Get Exchange Rates
+        </button>
+    </form>
+    </div>
+  </main>
+  </div>
+
+
+<div class="container">
+  <main>
+    <div *ngIf="exchangeRates"> 
+      <table>
+        <thead>
+          <tr>
+            <th><h2>Currency</h2></th>
+            <th><h2>Exchange Rate</h2></th>
+            <th><h2>For Selected Base Currency:</h2></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let rate of exchangeRates | keyvalue">
+            <td>{{ rate.key }}</td>
+            <td>{{ rate.value }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </main>
 </div>
 
-<div *ngIf="exchangeRates">
-  <h2>Exchange Rates</h2>
-  <ul>
-    <li *ngFor="let rate of exchangeRates | keyvalue">
-      {{ rate.key }}: {{ rate.value }}
-    </li>
-  </ul>
-</div>
+
 
