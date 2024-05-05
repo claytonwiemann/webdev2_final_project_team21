@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { WeatherService } from './weather.service';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-weather',
@@ -7,20 +8,25 @@ import { WeatherService } from './weather.service';
   styleUrls: ['./weather.component.css']
 })
 export class WeatherComponent implements OnInit {
+
   weatherData: any;
   temperatureFahrenheit: number = 0;
 
   constructor(private weatherService: WeatherService) { }
 
   ngOnInit(): void {
-    //new york example
-    const latitude = 40.7128;
-    const longitude = -74.0060;
-    this.fetchWeatherData(latitude, longitude);
+    //default to new york
+    this.weatherService.setCoordinates(40.7128, -74.0060)
+    this.weatherService.fetchWeatherByCoordinates(this.weatherService.getLatitude(), this.weatherService.getLongitude())
+    .subscribe(data => {
+      this.weatherData = data;
+      this.temperatureFahrenheit = this.kelvinToFahrenheit(this.weatherData.main.temp);
+    });
   }
 
-  fetchWeatherData(latitude: number, longitude: number): void {
-    this.weatherService.fetchWeatherByCoordinates(latitude, longitude)
+  getWeatherData(form: NgForm) {
+    this.weatherService.setCoordinates(form.value.latitude, form.value.longitude);
+    this.weatherService.fetchWeatherByCoordinates(this.weatherService.getLatitude(), this.weatherService.getLongitude())
       .subscribe(data => {
         this.weatherData = data;
         this.temperatureFahrenheit = this.kelvinToFahrenheit(this.weatherData.main.temp);
@@ -30,4 +36,5 @@ export class WeatherComponent implements OnInit {
   kelvinToFahrenheit(kelvin: number): number {
     return Math.trunc((kelvin - 273.15) * 9/5 + 32);
   }
+
 }
