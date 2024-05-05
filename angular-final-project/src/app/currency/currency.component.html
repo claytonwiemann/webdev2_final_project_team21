@@ -1,11 +1,4 @@
 <div *ngIf="exchangeRates">
-  <h2>Exchange Rates</h2>
-  <ul>
-    <li *ngFor="let rate of exchangeRates | keyvalue">
-      {{ rate.key }}: {{ rate.value }}
-    </li>
-  </ul>
-</div><div *ngIf="exchangeRates">
   <form (submit)="getExchangeRates(postForm)" #postForm = "ngForm">
     <select ngModel name="country">
       <option disable selected value="">Select Base Currency</option>
